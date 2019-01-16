@@ -1,0 +1,65 @@
+header{
+    background:darkslategrey;
+    padding: 20px 0px;
+    width: 100%;
+    overflow: hidden;
+}
+header>h1{
+    color: white;
+    font-size:50px;
+    font-weight: normal; 
+}
+.table{
+    width: 98%;
+    margin: 10px auto;
+    border-collapse: collapse;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 0px lightgrey;
+}
+.table td{
+    border-bottom:1px solid lightgray;
+    padding: 10px;
+    font-size:18px; 
+    word-break: break-word;
+}
+td.done{
+    background: lightgreen; 
+    text-decoration: line-through;
+}
+.noTodos{
+    font-size: 50px;
+    color: lightgray;
+    padding: 50px;
+}
+span{
+    display: inline-block;
+    word-break: normal;
+}
+.complete,.edit,.delete{
+    padding: 10px;
+    font-size: 15px;
+    background: rgba(0,0,0,0.05);
+    margin: 5px;
+    border-radius: 100px;
+    cursor: pointer;
+}
+.complete:hover,.edit:hover,.delete:hover{
+    transform:scale(1.1);
+    box-shadow: 0px 0px 5px 0px;
+}
+.complete{
+    color:rgb(3, 95, 3)
+}
+.edit{
+    color: rgb(28, 65, 145)
+}
+.delete{
+    color: rgb(168, 19, 19)
+}
+
+.completed{
+    font-size: 20px;
+    padding: 10px;
+    color:green;
+    vertical-align: middle;
+}
