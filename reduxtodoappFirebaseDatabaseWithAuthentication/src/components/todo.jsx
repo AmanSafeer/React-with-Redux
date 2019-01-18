@@ -13,17 +13,17 @@ class Todo extends Component{
         super(props);
         this.state={
             todo:"",
-            editTodo:""
+            editTodo:"",
         }
     }
     changeHandler=(event)=>{
         this.setState({[event.target.name]:event.target.value})
     }
-    addTodo=()=>{
+    addTodo=(userId)=>{
         if(this.state.todo){
             let todo = this.state.todo 
             let isCompleted = false;
-            this.props.add({todo,isCompleted})
+            this.props.add(userId, {todo,isCompleted})
             this.setState({todo:""})
         }
     }
@@ -35,59 +35,75 @@ class Todo extends Component{
             index:ind
         })
     }
-    updateTodo=()=>{
+    updateTodo=(userId)=>{
         if(this.state.editTodo){
             let todoObj ={};
             let ind = this.state.index
             todoObj.todo= this.state.editTodo;
             todoObj.id=this.state.todoId
             todoObj.isCompleted = false;
-            this.props.update({todoObj,ind});
+            this.props.update(userId,{todoObj,ind});
             this.setState({editTodo:"",index:"", todoId:""})
         }
     }
-    deleteTodo=(id)=>{
-        this.props.del(id)
+    deleteTodo=(userId,id)=>{
+        this.props.del(userId,id)
     }
 
-    completeTodo=(obj,ind)=>{
+    completeTodo=(userId,obj,ind)=>{
         let todoObj=obj;
         todoObj.isCompleted=true;
-        this.props.completed({todoObj,ind});
+        this.props.completed(userId,{todoObj,ind});
     }
-   
+    getData(){
+        firebase.auth().onAuthStateChanged((user)=>{
+            if(user){
+                console.log("did mount")
+                this.props.getData(user.uid);
+            }  
+        })
+    }
+    
     componentDidMount(){
-        this.props.getData()
+       this.getData()
     }
-
+    componentWillUnmount(){
+        console.log(this.props.userId)
+    }
+    
     signOut=()=>{
         firebase.auth().signOut()
         .then(()=>{
-            alert("Sucsessfully signed out")
+            this.props.signOutUser()
             this.props.history.replace('/')
+            alert("Sucsessfully signed out")
         })
         .catch((err)=>{
             alert(err)
         })
     }
     render(){
+        console.log("render")
         let {classes}=this.props
         
         return(
             <div>
             <header>
-            <Button onClick={this.signOut}>Sign Out</Button>
+            <h2>User Name: {this.props.userName}</h2>
+            <div>
                 <h1>Todo App Using Redux</h1>
                     {!this.props.editing ?
                 <div>
                     <TextField className={classes.text} id="standard-name" label="Todo" variant="outlined" name="todo" value={this.state.todo} onChange={this.changeHandler} autoFocus/>
-                    <Button color="primary" className={classNames(classes.addbutton,classes.button)} variant="outlined" onClick={this.addTodo}>Add</Button>
+                    <Button color="primary" className={classNames(classes.addbutton,classes.button)} variant="outlined" onClick={()=>this.addTodo(this.props.userId)}>Add</Button>
                 </div>
                     :
-                <div>
+                    <div>
                     <TextField className={classes.text} id="standard-name" label="Todo" variant="outlined" name="editTodo" value={this.state.editTodo} onChange={this.changeHandler} autoFocus/>
-                    <Button color="secondary" className={classNames(classes.updatebutton,classes.button)} variant="outlined" onClick={this.updateTodo}>Update</Button>
+                    <Button color="secondary" className={classNames(classes.updatebutton,classes.button)} variant="outlined" onClick={()=>this.updateTodo(this.props.userId)}>Update</Button>
                 </div>}    
+            </div>   
+            <Button  style={{backgroundColor:'white'}} onClick={this.signOut}>Sign Out</Button>
             </header>
               
              {(this.props.todos != "") ?
@@ -101,13 +117,13 @@ class Todo extends Component{
                             <td>
                                 {!val.isCompleted ?
                                 <span>
-                                    <span className="complete" title="Done" onClick={()=>this.completeTodo(val,ind)}>&#10004;</span>
+                                    <span className="complete" title="Done" onClick={()=>this.completeTodo(this.props.userId,val,ind)}>&#10004;</span>
                                     <span className="edit" title="Edit" onClick={()=>this.editTodo(val.todo,val.id,ind)}>&#9998;</span>
                                 </span>
                                 :
                                 <span className="completed">&#10004; Done</span>}
 
-                                <span className="delete" title="Delete" onClick={()=>this.deleteTodo(val.id)}>&#10006;</span>
+                                <span className="delete" title="Delete" onClick={()=>this.deleteTodo(this.props.userId,val.id)}>&#10006;</span>
                             </td>
                         </tr>
                     )}   

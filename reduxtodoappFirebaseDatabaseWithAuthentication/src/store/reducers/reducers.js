@@ -10,34 +10,45 @@ const initialState = {
 
 export default (state = initialState , action)=>{
     switch(action.type){
-        case actionTypes.GETUSER:{
+        case actionTypes.SIGNIN:{
             return{
                 ...state,
-                userName:action.payload.name,
-                userId:action.payload.id,
                 login:true
             }
         }
+        case actionTypes.SIGNOUT:{
+            return{
+                ...state,
+                login:false,
+                userName:'',
+                userId:'',
+                // todos:[],
+                editing:false,
+            }
+        }
+
         case actionTypes.GETDATA:{
             return{
                 ...state,
-                todos:state.todos.concat(action.payload)
+                userName:action.name,
+                userId:action.uid,
             }
         }
         case actionTypes.ADD:{
             return {
                 ...state,
-               todos:state.todos.concat(action.payload)
+                todos:action.payload
+            //    todos:state.todos.concat(action.payload),
             }
         }
         case actionTypes.DELETE:{
-            let newTodos= [...state.todos];
-            let todo = newTodos.find((val)=> {if(val.id === action.payload){return val}})
-            let index = newTodos.indexOf(todo)
-            newTodos.splice(index,1)
+            // let newTodos= [...state.todos];
+            // let todo = newTodos.find((val)=> {if(val.id === action.payload){return val}})
+            // let index = newTodos.indexOf(todo)
+            // newTodos.splice(index,1)
             return { 
                 ...state,
-                todos:newTodos,
+                // todos:newTodos,
                 editing:false
             }
         }
@@ -49,14 +60,14 @@ export default (state = initialState , action)=>{
         }
         
         case actionTypes.UPDATE:{
-            let newTodos= [...state.todos];
-            let updatedTodo= action.payload.val();
-            let todo = newTodos.find((val)=> {if(val.id === action.payload.key){return val}})
-            let index = newTodos.indexOf(todo)
-            newTodos.splice(index,1,updatedTodo)
+            // let newTodos= [...state.todos];
+            // let updatedTodo= action.payload.val();
+            // let todo = newTodos.find((val)=> {if(val.id === action.payload.key){return val}})
+            // let index = newTodos.indexOf(todo)
+            // newTodos.splice(index,1,updatedTodo)
             return {
                 ...state,
-                todos:newTodos,
+                // todos:newTodos,
                 editing:false,
             }
         }

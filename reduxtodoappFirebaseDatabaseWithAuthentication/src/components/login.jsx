@@ -7,7 +7,7 @@ import * as firebase from 'firebase'
 class Login extends Component {
     constructor(){
         super();
-        this.ref=firebase.database().ref();
+        this.ref= firebase.database().ref();
         this.state={
             name:'',
             email:'',
@@ -16,11 +16,11 @@ class Login extends Component {
         }
     }
     changeHandler=(event)=>{
-        this.setState({[event.target.name]:event.target.value})
+        this.setState({[event.target.name]:event.target.value});
     }
 
     changeForm=()=>{
-        this.setState({signIn:!this.state.signIn})
+        this.setState({signIn:!this.state.signIn});
     }
     signUp=(event)=>{
         event.preventDefault()
@@ -29,39 +29,36 @@ class Login extends Component {
         const password = this.state.password;
         firebase.auth().createUserWithEmailAndPassword(email,password)
         .then(res=>{
-            this.props.saveUser(name,res.user.uid)
+            this.props.signUpUser(name,res.user.uid);
+            //  this.props.signInUser();
             this.props.history.replace('/home');
         }
         )
         .catch(err=>{
-            alert(err)
+            alert(err);
         })
     }
     signIn=(event)=>{
         event.preventDefault()
-        let name;
         const email = this.state.email;
         const password = this.state.password;
         firebase.auth().signInWithEmailAndPassword(email,password)
         .then(res =>{
-            this.ref.child(res.user.uid).once('value',(snapShot)=>{
-                const data= snapShot.val()
-                console.log(data)
-            })
-            this.props.history.replace('/home')
-            
+            // this.props.signInUser();
+            this.props.history.replace('/home');
         })
         .catch(err=>{
-            alert(err)
+            alert(err);
         })
 
     }
+  
     componentDidMount(){
         firebase.auth().onAuthStateChanged((user)=>{
             if(user){
-                let name;
+                // this.props.signInUser();
                 this.props.history.replace('/home');
-                console.log(user)
+                
             }
         })
     }

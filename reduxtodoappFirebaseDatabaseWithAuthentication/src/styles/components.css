@@ -31,11 +31,23 @@ header{
     padding: 20px 0px;
     width: 100%;
     overflow: hidden;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
-header>h1{
+header h1{
     color: white;
     font-size:50px;
     font-weight: normal; 
+}
+header h2 {
+    color:white;
+    font-weight:normal;
+    padding: 5px;
+   border:1px solid;
+   border-radius: 10px;
+   font-size: 1em
+
 }
 .table{
     width: 98%;

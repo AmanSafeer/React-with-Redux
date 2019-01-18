@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Login from '../components/login';
-import {saveUser} from '../store/action/action'
+import {signUpUser,signInUser} from '../store/action/action'
 
  function mapStateToProps(state){
   return({  
@@ -9,14 +9,15 @@ import {saveUser} from '../store/action/action'
 }
 function mapDispatchToProps(dispatch){
   return({
-    saveUser: (name,id)=> dispatch(saveUser(name,id))
+    signUpUser: (name,id)=> dispatch(signUpUser(name,id)),
+    signInUser: ()=> dispatch(signInUser())
   })
 }
 class LoginConnect extends Component {
     render() {
       return (
         <div>
-         <Login saveUser={this.props.saveUser} history={this.props.history}/>
+         <Login signUpUser={this.props.signUpUser} signInUser={this.props.signInUser} history={this.props.history}/>
         </div>
       );
     }

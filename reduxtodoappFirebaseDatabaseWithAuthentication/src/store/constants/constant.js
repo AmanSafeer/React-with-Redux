@@ -1,5 +1,6 @@
 let actionTypes = {
-    GETUSER:"GETUSER",
+    SIGNIN:"SIGNIN",
+    SIGNOUT:"SIGNOUT",
     GETDATA:"GETDATA",
     ADD:"ADD",
     DELETE:"DELETE",

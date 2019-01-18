@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Todo from '../components/todo';
-import {add,del,edit,update,getData,completed} from '../store/action/action'
+import {add,del,edit,update,getData,completed,signOutUser,loseData} from '../store/action/action'
 
 
  function mapStateToProps(state){
@@ -15,22 +15,23 @@ import {add,del,edit,update,getData,completed} from '../store/action/action'
 }
 function mapDispatchToProps(dispatch){
   return({
-      getData:()=>{dispatch(getData())},
-      add: (todoObj) => {dispatch(add(todoObj))},
-      del: (id) => { dispatch(del(id))},
-      edit: ()=> { dispatch(edit()) },
-      update: (updateObj)=> {dispatch(update(updateObj))},
-      completed:(completeObj)=> {dispatch(completed(completeObj))}
+      getData:(userId)=>dispatch(getData(userId)),
+      add: (userId,todoObj) => dispatch(add(userId,todoObj)),
+      del: (userId,id) => dispatch(del(userId,id)),
+      edit: ()=> dispatch(edit()) ,
+      update: (userId,updateObj)=> dispatch(update(userId,updateObj)),
+      completed:(userId,completeObj)=> dispatch(completed(userId,completeObj)),
+      signOutUser:()=>dispatch(signOutUser()),
+     
   })
 }
 class TodoConnect extends Component {
     render() {
-      // console.log(this.props.location)
-      console.log(this.props.userName)
       return (
         <div>
-          <Todo userName={this.props.userName} userId={this.props.userId}  add={this.props.add} update={this.props.update}  valueForEdit={this.props.valueForEdit} indexOfVal={this.props.indexOfVal} 
-           del={this.props.del} edit={this.props.edit} completed={this.props.completed} getData={this.props.getData} todos={this.props.todos} editing={this.props.editing} history={this.props.history}/>
+          <Todo userName={this.props.userName} userId={this.props.userId} todos={this.props.todos} editing={this.props.editing} getData={this.props.getData} 
+          add={this.props.add} update={this.props.update} del={this.props.del} edit={this.props.edit} completed={this.props.completed}  signOutUser={this.props.signOutUser}
+          history={this.props.history}/>
         </div>
       );
     }
