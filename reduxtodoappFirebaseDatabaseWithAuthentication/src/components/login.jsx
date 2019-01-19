@@ -30,7 +30,7 @@ class Login extends Component {
         firebase.auth().createUserWithEmailAndPassword(email,password)
         .then(res=>{
             this.props.signUpUser(name,res.user.uid);
-            //  this.props.signInUser();
+             this.props.signInUser();
             this.props.history.replace('/home');
         }
         )
@@ -44,7 +44,7 @@ class Login extends Component {
         const password = this.state.password;
         firebase.auth().signInWithEmailAndPassword(email,password)
         .then(res =>{
-            // this.props.signInUser();
+            this.props.signInUser();
             this.props.history.replace('/home');
         })
         .catch(err=>{
@@ -56,7 +56,7 @@ class Login extends Component {
     componentDidMount(){
         firebase.auth().onAuthStateChanged((user)=>{
             if(user){
-                // this.props.signInUser();
+                this.props.signInUser();
                 this.props.history.replace('/home');
                 
             }

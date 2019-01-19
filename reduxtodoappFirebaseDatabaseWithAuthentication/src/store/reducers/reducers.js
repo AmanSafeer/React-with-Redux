@@ -1,10 +1,11 @@
 import actionTypes from '../constants/constant'
 
 const initialState = {
-    login:false,
     userName:'',
     userId:'',
     todos:[],
+    login:false,
+    data:false,
     editing:false,
 };
 
@@ -19,11 +20,12 @@ export default (state = initialState , action)=>{
         case actionTypes.SIGNOUT:{
             return{
                 ...state,
-                login:false,
                 userName:'',
                 userId:'',
-                // todos:[],
-                editing:false,
+                todos:[],
+                login:false,
+                data:true,
+                editing:false
             }
         }
 
@@ -32,6 +34,7 @@ export default (state = initialState , action)=>{
                 ...state,
                 userName:action.name,
                 userId:action.uid,
+                data:true
             }
         }
         case actionTypes.ADD:{
